@@ -4,3 +4,27 @@ export interface IApi {
     get<T extends object>(uri: string): Promise<T>;
     post<T extends object>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
 }
+
+export interface product {
+  id: string;
+  title: string;
+  image: string;
+  category: string;
+  price: number | null;
+  description: string;
+}
+
+export interface buyerData {
+	address: string;
+	phone: string;
+	email: string;
+	payment: buyerPayment;
+}
+
+export type buyerPayment = `online` | `cash`;
+export type buyerError = Partial<Record<keyof buyerData, string>>;
+
+export interface productsList {
+	items: product[];
+	total: number;
+}
