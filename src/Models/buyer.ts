@@ -1,12 +1,12 @@
-import { buyerData, buyerError } from "../types/index.ts";
+import { BuyerData, BuyerError } from "../types/index.ts";
 
-export class buyer {
-    private payment: buyerData['payment'] | '' = '';
+export class Buyer {
+    private payment: BuyerData['payment'] | '' = '';
     private address = '';
     private phone = '';
     private email = '';
 
-    getData(): Partial<buyerData> {
+    getData(): Partial<BuyerData> {
         return {
             payment: this.payment || undefined,
             email: this.email,
@@ -15,7 +15,7 @@ export class buyer {
         }
     }
 
-    setData(data: Partial<buyerData>): void {
+    setData(data: Partial<BuyerData>): void {
 
         if (data.payment !== undefined) {
             this.payment = data.payment;
@@ -42,8 +42,8 @@ export class buyer {
         this.email = '';
     }
 
-    validate(): buyerError {
-        const errors: buyerError = {};
+    validate(): BuyerError {
+        const errors: BuyerError = {};
         
         if (!this.email.trim()) {
             errors.email = "Пустое поле, укажите ваш e-mail.";
@@ -58,7 +58,7 @@ export class buyer {
         }
 
         if (!this.payment) {
-            errors.payment = "Спопосб оплаты не выбран, выберите способ оплаты."
+            errors.payment = "Способ оплаты не выбран, выберите способ оплаты."
         }
 
         return errors;

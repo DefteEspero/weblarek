@@ -1,26 +1,26 @@
-import { product } from "../types/index.ts";
+import { IProduct } from "../types/index.ts";
 
-export class products {
-    private items: product[] = [];
-    private preview: product | null = null;
+export class Products {
+    private items: IProduct[] = [];
+    private preview: IProduct | null = null;
 
-    setItems(items: product[]): void {
+    setItems(items: IProduct[]): void {
         this.items = [...items];
     }
 
-    getItems(): product[] {
+    getItems(): IProduct[] {
         return [...this.items];
     }
 
-    getItemsById(id: string): product | undefined {
+    getItemById(id: string): IProduct | undefined {
         return this.items.find((item) => item.id === id);
     }
 
-    setPreview(item: product | null): void {
+    setPreview(item: IProduct | null): void {
         this.preview = item;
     }
 
-    getPreview(): product | null {
+    getPreview(): IProduct | null {
         return this.preview;
     }
 

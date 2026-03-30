@@ -1,17 +1,17 @@
-import { product } from "../types/index.ts";
+import { IProduct } from "../types/index.ts";
 
-export class cart {
-    private items: product[] = [];
+export class Cart {
+    private items: IProduct[] = [];
     
-    getItems(): product[] {
-        return { ...this.items };
+    getItems(): IProduct[] {
+        return [ ...this.items ];
     }
 
-    addItems(item: product): void {
+    addItem(item: IProduct): void {
         this.items.push(item);
     }
 
-    removeItem(item: product): void {
+    removeItem(item: IProduct): void {
         this.items = this.items.filter((cartTest) => cartTest.id !== item.id);;
     }
 
@@ -23,7 +23,7 @@ export class cart {
         return this.items.reduce((total, item) => total + (item.price ?? 0), 0);
     }
 
-    getItmesCount(): number {
+    getItemCount(): number {
         return this.items.length;
     }
 

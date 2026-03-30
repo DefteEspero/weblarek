@@ -5,7 +5,7 @@ export interface IApi {
     post<T extends object>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
 }
 
-export interface product {
+export interface IProduct {
   id: string;
   title: string;
   image: string;
@@ -14,17 +14,28 @@ export interface product {
   description: string;
 }
 
-export interface buyerData {
+export interface BuyerData {
 	address: string;
 	phone: string;
 	email: string;
-	payment: buyerPayment;
+	payment: BuyerPayment | '';
 }
 
-export type buyerPayment = `online` | `cash`;
-export type buyerError = Partial<Record<keyof buyerData, string>>;
-
-export interface productsList {
-	items: product[];
-	total: number;
+export interface ProductResponse {
+  items: IProduct[];
+  total: number;
 }
+
+export interface OrderRequest extends BuyerData {
+  items: IProduct['id'][];
+  total: number;
+}
+
+export interface OrderResponse {
+  id: number;
+  total: number;
+}
+    
+export type BuyerPayment = `online` | `cash`;
+export type BuyerError = Partial<Record<keyof BuyerData, string>>;
+

@@ -1,43 +1,47 @@
 import './scss/styles.scss';
 
-import { cart } from "./Models/cart.ts";
-import { buyer } from './Models/buyer.ts';
-import { products } from './Models/product.ts';
+import { Cart } from './Models/cart.ts';
+import { Buyer } from  './Models/buyer.ts';
+import { Products } from './Models/product.ts';
 import { apiProducts } from './utils/data.ts';
+import { WebLarekApi } from "./Models/webLarekApi.ts";
+import { API_URL } from './utils/constants.ts';
+import { Api } from "./components/base/Api.ts";
 
-const cartTest = new cart();
-const buyerTest = new buyer();
-const productsTest = new products();
+const cartTest = new Cart();
+const buyerTest = new Buyer();
+const productsTest = new Products();
 const firstProduct = apiProducts.items[0];
 const secondProduct = apiProducts.items[1];
+const api = new Api(API_URL);
+const larekApi = new WebLarekApi(api);
 
-
-cartTest.addItems(secondProduct);
+cartTest.addItem(secondProduct);
 console.log("Товары в корзине - ", cartTest.getItems());
 
 console.log("Проверка наличия товара в корзине - ", cartTest.inCart(firstProduct.id), " корзина: ", cartTest.getItems());
 
-cartTest.addItems(firstProduct);
+cartTest.addItem(firstProduct);
 console.log("Проверка наличия товара в корзине после добавления - ", cartTest.inCart(firstProduct.id), " корзина: ", cartTest.getItems());
 
-console.log("Количество товаров в корзине - ", cartTest.getItmesCount());
+console.log("Количество товаров в корзине - ", cartTest.getItemCount());
 
 console.log("Цена всей корзины - ", cartTest.getTotalPrice());
 
 cartTest.removeItem(firstProduct);
 
 console.log("Цена всей корзины после удаления товара - ", cartTest.getTotalPrice());
-console.log("Количество товаров в корзине после удаления - ", cartTest.getItmesCount());
+console.log("Количество товаров в корзине после удаления - ", cartTest.getItemCount());
 
 cartTest.clearCart();
-console.log("Отчистка корзины - ", cartTest.getItems());
+console.log("Очистка корзины - ", cartTest.getItems());
 
 
 productsTest.setItems(apiProducts.items);
 console.log('Каталог товаров - ', productsTest.getItems());
 
-console.log("Вывод товаров по id(1й) - ", productsTest.getItemsById(firstProduct.id));
-console.log("Вывод товаров по id(2й) - ", productsTest.getItemsById(secondProduct.id));
+console.log("Вывод товаров по id(1й) - ", productsTest.getItemById(firstProduct.id));
+console.log("Вывод товаров по id(2й) - ", productsTest.getItemById(secondProduct.id));
 
 productsTest.setPreview(firstProduct);
 console.log("Каталог товаров - ", productsTest.getPreview());
@@ -58,6 +62,12 @@ buyerTest.setData({
 console.log("Проверка ошибок валидации c пустыми полями - ", buyerTest.validate());
 
 buyerTest.clear();
-console.log("Отчистка данных - ", buyerTest.getData());
-console.log("Ошибки валидации после отчистки полей данных - ", buyerTest.validate());
+console.log("Очистка данных - ", buyerTest.getData());
+console.log("Ошибки валидации после очистки всех полей данных - ", buyerTest.validate());
 
+larekApi.getProducts().then((response) => {
+    productsTest.setItems(response.items);
+    console.log("Каталог товаров с сервера: ", productsTest.getItems());
+}).catch((error: unknown) => {
+    console.error("Ошибка получения каталога: ", error);
+});
