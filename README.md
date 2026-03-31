@@ -139,7 +139,7 @@ interface BuyerData {
 ````
 Доступные способы оплаты.
 ````ts
-type BuyerPayment = `online` | `cash`;
+type BuyerPayment = `online` | `offline`;
 ````
 Ошибки возникающие при валидации формы.
 ```ts
