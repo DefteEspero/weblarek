@@ -1,4 +1,4 @@
-import { BuyerData, BuyerError } from "../types/index.ts";
+import { BuyerData, BuyerError } from "../../types/index.ts";
 
 export class Buyer {
     private payment: BuyerData['payment'] | '' = '';
@@ -12,7 +12,7 @@ export class Buyer {
             email: this.email,
             phone: this.phone,
             address: this.address
-        }
+        };
     }
 
     setData(data: Partial<BuyerData>): void {
@@ -35,7 +35,7 @@ export class Buyer {
 
     }
 
-    clear(): void {
+    clearData(): void {
         this.payment = '';
         this.address = '';
         this.phone = '';

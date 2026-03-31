@@ -128,8 +128,7 @@ interface IProduct {
 - `address: string` - адрес доставки.
 - `phone: string` - телефон покупателя.
 - `email: string` - почта пользователя.
-- `payment: Payment` - способ оплаты.
-
+- `payment: BuyerPayment |` - способ оплаты.
 ````ts
 interface BuyerData {
 	address: string;
@@ -256,7 +255,7 @@ interface OrderResponse {
 Методы:
 - `getData(): Partial<BuyerData>` - возвращает данные пользователя. 
 - `setData(data: Partial<BuyerData>): void` - сохранение данных пользователя.
-- `clear(): void` - очистка данные пользователя.
+- `clearData(): void` - очистка данные пользователя.
 - `validate(): BuyerError` - возвращает ошибку валидации полей.
 
 ### Слой коммуникации

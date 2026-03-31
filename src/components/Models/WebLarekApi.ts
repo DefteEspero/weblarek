@@ -1,4 +1,4 @@
-import { IApi, OrderRequest, OrderResponse, ProductResponse } from "../types";
+import { IApi, OrderRequest, OrderResponse, ProductResponse } from "../../types/index.ts";
 
 export class WebLarekApi {
     constructor(private api: IApi) { };

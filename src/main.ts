@@ -1,10 +1,10 @@
 import './scss/styles.scss';
 
-import { Cart } from './Models/cart.ts';
-import { Buyer } from  './Models/buyer.ts';
-import { Products } from './Models/product.ts';
+import { Cart } from './components/Models/Cart.ts';
+import { Buyer } from  './components/Models/Buyer.ts';
+import { Products } from './components/Models/Product.ts';
 import { apiProducts } from './utils/data.ts';
-import { WebLarekApi } from "./Models/webLarekApi.ts";
+import { WebLarekApi } from "./components/Models/WebLarekApi.ts";
 import { API_URL } from './utils/constants.ts';
 import { Api } from "./components/base/Api.ts";
 
@@ -61,7 +61,7 @@ buyerTest.setData({
 })
 console.log("Проверка ошибок валидации c пустыми полями - ", buyerTest.validate());
 
-buyerTest.clear();
+buyerTest.clearData();
 console.log("Очистка данных - ", buyerTest.getData());
 console.log("Ошибки валидации после очистки всех полей данных - ", buyerTest.validate());
 
