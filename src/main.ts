@@ -18,42 +18,39 @@ const larekApi = new WebLarekApi(api);
 
 cartTest.addItem(secondProduct);
 console.log("Товары в корзине - ", cartTest.getItems());
-
 console.log("Проверка наличия товара в корзине - ", cartTest.inCart(firstProduct.id), " корзина: ", cartTest.getItems());
 
 cartTest.addItem(firstProduct);
 console.log("Проверка наличия товара в корзине после добавления - ", cartTest.inCart(firstProduct.id), " корзина: ", cartTest.getItems());
-
 console.log("Количество товаров в корзине - ", cartTest.getItemCount());
-
 console.log("Цена всей корзины - ", cartTest.getTotalPrice());
 
 cartTest.removeItem(firstProduct);
-
-console.log("Цена всей корзины после удаления товара - ", cartTest.getTotalPrice());
 console.log("Количество товаров в корзине после удаления - ", cartTest.getItemCount());
+console.log("Цена всей корзины после удаления товара - ", cartTest.getTotalPrice());
 
 cartTest.clearCart();
 console.log("Очистка корзины - ", cartTest.getItems());
+console.log("Цена корзины после удаления товаров - ", cartTest.getTotalPrice());
 
 
 productsTest.setItems(apiProducts.items);
 console.log('Каталог товаров - ', productsTest.getItems());
-
 console.log("Вывод товаров по id(1й) - ", productsTest.getItemById(firstProduct.id));
 console.log("Вывод товаров по id(2й) - ", productsTest.getItemById(secondProduct.id));
 
 productsTest.setPreview(firstProduct);
-console.log("Каталог товаров - ", productsTest.getPreview());
+console.log("Объект товара - ", productsTest.getPreview());
 
 
+console.log("Данные покупателя до добавления - ", buyerTest.getData());
 buyerTest.setData({
     address: "Дворцовая пл., 2, Санкт-Петербург, Россия",
     email: "example@hail.com",
     phone: "+70000000000",
     payment: "cash"
 })
-console.log("Данные покупателя - ", buyerTest.getData());
+console.log("Данные покупателя после добавления - ", buyerTest.getData());
 
 buyerTest.setData({
     address: "",
