@@ -46,16 +46,23 @@ console.log("Объект товара - ", productsTest.getPreview());
 console.log("Данные покупателя до добавления - ", buyerTest.getData());
 buyerTest.setData({
     address: "Дворцовая пл., 2, Санкт-Петербург, Россия",
-    email: "example@hail.com",
+    email: "example@mail.com",
     phone: "+70000000000",
-    payment: "cash"
-})
+    payment: "online"
+});
 console.log("Данные покупателя после добавления - ", buyerTest.getData());
+buyerTest.setData({
+    address: "пл. Комсомольская, 1, Самара, Самарская обл.",
+    email: "examplemail@mail.ru",
+    phone: "+70000000001",
+    payment: "offline"
+});
+console.log("Новые данные покупателя после добавления - ", buyerTest.getData());
 
 buyerTest.setData({
     address: "",
     phone: ""
-})
+});
 console.log("Проверка ошибок валидации c пустыми полями - ", buyerTest.validate());
 
 buyerTest.clearData();

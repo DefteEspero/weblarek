@@ -27,6 +27,10 @@ export interface ProductResponse {
 }
 
 export interface OrderRequest extends BuyerData {
+  address: string;
+  phone: string;
+  email: string;
+  payment: BuyerPayment;
   items: IProduct['id'][];
   total: number;
 }
@@ -36,6 +40,6 @@ export interface OrderResponse {
   total: number;
 }
     
-export type BuyerPayment = `online` | `cash`;
+export type BuyerPayment = `online` | `offline`;
 export type BuyerError = Partial<Record<keyof BuyerData, string>>;
 

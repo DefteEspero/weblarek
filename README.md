@@ -128,7 +128,7 @@ interface IProduct {
 - `address: string` - адрес доставки.
 - `phone: string` - телефон покупателя.
 - `email: string` - почта пользователя.
-- `payment: BuyerPayment |` - способ оплаты.
+- `payment: BuyerPayment | ''` - способ оплаты.
 ````ts
 interface BuyerData {
 	address: string;
@@ -165,6 +165,10 @@ interface ProductResponse {
 
 ````ts
 interface OrderRequest extends BuyerData {
+  address: string;
+  phone: string;
+  email: string;
+  payment: BuyerPayment;
   items: IProduct['id'][];
   total: number;
 }
