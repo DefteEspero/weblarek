@@ -6,9 +6,9 @@ export class Buyer {
     private phone = '';
     private email = '';
 
-    getData(): Partial<BuyerData> {
+    getData(): BuyerData {
         return {
-            payment: this.payment || undefined,
+            payment: this.payment,
             email: this.email,
             phone: this.phone,
             address: this.address

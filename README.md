@@ -165,9 +165,6 @@ interface ProductResponse {
 
 ````ts
 interface OrderRequest extends BuyerData {
-  address: string;
-  phone: string;
-  email: string;
   payment: BuyerPayment;
   items: IProduct['id'][];
   total: number;

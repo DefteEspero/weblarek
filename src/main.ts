@@ -53,11 +53,11 @@ buyerTest.setData({
 console.log("Данные покупателя после добавления - ", buyerTest.getData());
 buyerTest.setData({
     address: "пл. Комсомольская, 1, Самара, Самарская обл.",
-    email: "examplemail@mail.ru",
+    email: "examplemail@email.ru",
     phone: "+70000000001",
     payment: "offline"
 });
-console.log("Новые данные покупателя после добавления - ", buyerTest.getData());
+console.log("Новые данные покупателя - ", buyerTest.getData());
 
 buyerTest.setData({
     address: "",
