@@ -14,7 +14,7 @@ const productsTest = new Products();
 const firstProduct = apiProducts.items[0];
 const secondProduct = apiProducts.items[1];
 const api = new Api(API_URL);
-const larekApi = new WebLarekApi(api);
+const larekApi = new WebLarekApi(api); 
 
 cartTest.addItem(secondProduct);
 console.log("Товары в корзине - ", cartTest.getItems());

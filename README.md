@@ -254,7 +254,7 @@ interface OrderResponse {
 - `phone: string` - телефон пользователя.
 
 Методы:
-- `getData(): Partial<BuyerData>` - возвращает данные пользователя. 
+- `getData(): BuyerData` - возвращает данные пользователя. 
 - `setData(data: Partial<BuyerData>): void` - сохранение данных пользователя.
 - `clearData(): void` - очистка данные пользователя.
 - `validate(): BuyerError` - возвращает ошибку валидации полей.
