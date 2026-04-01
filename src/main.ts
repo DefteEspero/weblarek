@@ -2,7 +2,7 @@ import './scss/styles.scss';
 
 import { Cart } from './components/Models/Cart.ts';
 import { Buyer } from  './components/Models/Buyer.ts';
-import { Products } from './components/Models/Product.ts';
+import { Products } from './components/Models/Products.ts';
 import { apiProducts } from './utils/data.ts';
 import { WebLarekApi } from "./components/Models/WebLarekApi.ts";
 import { API_URL } from './utils/constants.ts';
