@@ -279,3 +279,5 @@ interface OrderResponse {
 Методы:
 - `getProducts(): Promise<ProductResponse>` - выполняет get запрос на эндпоинт `/product/` и возвращает объект с массивом товаров.
 - `createOrder(order: OrderRequest): Promise<OrderResponse>` - выполняет post запрос на эндпоинт `/order/` и отправляет данные заказа. Возвращает идентификатор заказа и итоговую сумму.
+
+### Представления (View)
