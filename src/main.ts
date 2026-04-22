@@ -42,6 +42,9 @@ let ModalWindow: "preview" | "basket" | "order" | "contacts" | "success" | null 
 larekApi.getProducts().then((response) => {
     products.setItems(response.items);
     console.log("Каталог товаров с сервера: ", products.getItems());
+})
+.catch((error: unknown) => {
+    console.error("Ошибка получения каталога: ", error);
 });
 
 function catalogRender(): void {

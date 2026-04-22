@@ -8,10 +8,10 @@ export class Modal extends Component<ModalView> {
     private readonly closeButton: HTMLButtonElement;
     private readonly contentConteiner: HTMLElement;
 
-    constructor(conteiner: HTMLElement, private readonly eventEmitter: IEvents) {
-        super(conteiner);
+    constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {
+        super(container);
         this.closeButton = ensureElement<HTMLButtonElement>(".modal__close", this.container);
-        this.contentConteiner = ensureElement<HTMLElement>(".modal__container");
+        this.contentConteiner = ensureElement<HTMLElement>(".modal__content");
         this.closeButton.addEventListener("click", () => {
             this.eventEmitter.emit(events.modalClose);
         });
