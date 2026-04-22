@@ -6,13 +6,13 @@ import { ensureElement } from "../../utils/utils.ts";
 export abstract class Form<T extends FormView> extends Component<T> {
     protected readonly form: HTMLFormElement;
     protected readonly submitButton: HTMLButtonElement;
-    protected readonly errors: HTMLElement;
+    protected readonly error: HTMLElement;
 
     protected constructor(container: HTMLFormElement, protected readonly eventEmitter: IEvents) {
         super(container);
         this.form = this.container as HTMLFormElement;
         this.submitButton = ensureElement<HTMLButtonElement>("button[type='submit']", this.form);
-        this.errors = ensureElement<HTMLElement>(".form__errors", this.form);
+        this.error = ensureElement<HTMLElement>(".form__errors", this.form);
         this.form.addEventListener("submit", (event) => {
             event.preventDefault();
             this.handleSubmit();
@@ -34,8 +34,8 @@ export abstract class Form<T extends FormView> extends Component<T> {
         this.submitButton.disabled = !value;
     }
 
-    set error(value: string) {
-        this.setText(this.errors, value);
+    set errors(value: string) {
+        this.setText(this.error, value);
     }
 
     protected abstract handleSubmit(): void;
