@@ -1,10 +1,14 @@
 import { BuyerData, BuyerError } from "../../types/index.ts";
+import { IEvents } from "../base/Events.ts";
+
 
 export class Buyer {
     private payment: BuyerData['payment'] | '' = '';
     private address = '';
     private phone = '';
     private email = '';
+
+    constructor(private events: IEvents) {}
 
     getData(): BuyerData {
         return {
@@ -32,7 +36,7 @@ export class Buyer {
         if (data.phone !== undefined) {
             this.phone = data.phone;
         }
-
+        this.events.emit('buyer:changed', this.validate());
     }
 
     clearData(): void {
@@ -40,6 +44,7 @@ export class Buyer {
         this.address = '';
         this.phone = '';
         this.email = '';
+        this.events.emit('buyer:changed', this.validate());
     }
 
     validate(): BuyerError {
