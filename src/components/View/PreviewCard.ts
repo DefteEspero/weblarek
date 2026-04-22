@@ -1,5 +1,4 @@
-import { IEvents } from "../base/Events.ts";
-import { events } from "../base/Events.ts";
+import { IEvents, events } from "../base/Events.ts";
 import { ensureElement } from "../../utils/utils.ts";
 import { ProductCard } from "./ProductCard.ts";
 import { PreviewCardView } from "../../types/index.ts";

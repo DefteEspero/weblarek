@@ -4,8 +4,8 @@ import { Form } from "./Form.ts";
 import { FormContacts } from "../../types/index.ts";
 
 export class ContactsForm extends Form<FormContacts> {
-    private readonly emailField: HTMLInputElement;
     private readonly phoneField: HTMLInputElement;
+    private readonly emailField: HTMLInputElement;
 
     constructor(container: HTMLFormElement, eventEmitter: IEvents) {
         super(container, eventEmitter);

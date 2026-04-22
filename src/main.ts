@@ -149,7 +149,9 @@ eventEmitter.on<Event>(events.productsRemove, ({ id }) => {
     if (!product) {
         return;
     }
-    cart.removeItem(product);
+    cart.removeItem(product);   
+    modal.close();
+    ModalWindow = null;
 });
 
 eventEmitter.on(events.cartChanged, () => {
@@ -168,7 +170,7 @@ eventEmitter.on(events.cartOpen, () => {
     cartRender();
 });
 
-function FormOrder(ModalWindow: boolean): void {
+function formOrder(ModalWindow: boolean): void {
     const data = buyer.getData();
     const errors = buyer.validate();
     const orderErrors = getOrderErrors(errors);
@@ -185,7 +187,7 @@ function FormOrder(ModalWindow: boolean): void {
 }
 
 eventEmitter.on(events.orderOpen, () => {
-    FormOrder(true);
+    formOrder(true);
 });
 
 eventEmitter.on<FormEvent>(events.formChange, ({ field, value }) => {
@@ -195,15 +197,15 @@ eventEmitter.on<FormEvent>(events.formChange, ({ field, value }) => {
 
 eventEmitter.on(events.buyerChanged, () => {
     if (ModalWindow === "order") {
-        FormOrder(false);
+        formOrder(false);
     }
 
     if (ModalWindow === "contacts") {
-        FormContacts(false);
+        formContacts(false);
     }
 });
 
-function FormContacts(ModalWindow: boolean): void {
+function formContacts(ModalWindow: boolean): void {
     const data = buyer.getData();
     const errors = buyer.validate();
     const orderErrors = getContactsErrors(errors);
@@ -224,7 +226,7 @@ eventEmitter.on(events.orderSubmit, () => {
         return;
     }
 
-    FormContacts(true);
+    formContacts(true);
 });
 
 eventEmitter.on(events.contactsSubmit, () => {
@@ -245,21 +247,21 @@ eventEmitter.on(events.contactsSubmit, () => {
         total: cart.getTotalPrice(),
     };
 
+    function formSuccess(total: number): void {
+        const success = new OrderSuccess(cloneTemplate<HTMLElement>("#success"), eventEmitter);
+        openModalWindow(success.render({ total }), "success");
+    }
+
     larekApi.createOrder(order).then((response) => {
         cart.clearCart();
         buyer.clearData();
         products.setPreview(null);
-        FormSuccess(response.total);
+        formSuccess(response.total);
     })
     .catch((err) => {
         console.error("Ошибка оформления заказа:", err);
     });
 });
-
-function FormSuccess(total: number): void {
-    const success = new OrderSuccess(cloneTemplate<HTMLElement>("#success"), eventEmitter);
-    openModalWindow(success.render({ total }), "success");
-}
 
 eventEmitter.on(events.modalClose, () => {
     modal.close();
