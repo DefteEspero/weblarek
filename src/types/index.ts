@@ -51,14 +51,14 @@ export interface ModalView {
 
 export interface CardView extends IProduct { }
 
-export interface Event {
-    id: string;
+export interface ProductEvent {
+  id: string;
 }
 
 export interface CartView {
-    items: HTMLElement[];
-    total: number;
-    disabled: boolean;
+  items: HTMLElement[];
+  total: number;
+  disabled: boolean;
 }
 
 export interface CartCardView {
@@ -80,9 +80,9 @@ export interface FormView {
 }
 
 export interface FormEvent {
-    form: string;
-    field: keyof BuyerData;
-    value: string;
+  form: string;
+  field: keyof BuyerData;
+  value: string;
 }
 
 export interface FormOrder extends FormView {

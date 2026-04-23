@@ -17,9 +17,9 @@ export class PreviewCard extends ProductCard<PreviewCardView> {
             }
 
             if (this.isInCart) {
-                this.eventEmitter.emit(events.productsRemove, { id: this.productId });
+                this.eventEmitter.emit(events.productsRemove, { id: this.currentId });
             } else {
-                this.eventEmitter.emit(events.productsAdd, { id: this.productId });
+                this.eventEmitter.emit(events.productsAdd, { id: this.currentId });
             }
         });
     }

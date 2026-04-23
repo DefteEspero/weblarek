@@ -15,6 +15,12 @@ export class Modal extends Component<ModalView> {
             this.eventEmitter.emit(events.modalClose);
         });
 
+        this.container.addEventListener("click", (event) => {
+            if (event.target === this.container) {
+                this.eventEmitter.emit(events.modalClose);
+            }
+        });
+
         document.addEventListener("keydown", (event) => {
             if (event.key === "Escape" && this.container.classList.contains("modal_active")) {
                 this.eventEmitter.emit(events.modalClose);

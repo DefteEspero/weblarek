@@ -110,7 +110,7 @@ Presenter - презентер содержит основную логику п
 - `title: string` - название товара.
 - `image: string` - путь до изображения товара.
 - `category: string` - категория товара.
-- `price: number | null` - цена товара, может быть бесплатным.
+- `price: number | null` - цена товара, может быть бесценной.
 - `description: string` - описание товара.
 
 ````ts
@@ -180,6 +180,114 @@ interface OrderRequest extends BuyerData {
 ````ts
 interface OrderResponse {
   id: number;
+  total: number;
+}
+````
+
+Данные карточки товара.
+- `id: string` - уникальный номер товара.
+- `title: string` - название товара.
+- `image: string` - путь до изображения товара.
+- `category: string` - категория товара.
+- `price: number | null` - цена товара, может быть бесценной.
+- `description: string` - описание товара.
+
+````ts
+export interface CardView extends IProduct { }
+````
+
+Данные корзины.
+- `items: HTMLElement[]` - список товаров в корзине.
+- `total: number` - общая стоимость товаров.
+- `disabled: boolean` - состояние кнопки оформления в корзине.
+
+````ts
+export interface CartView {
+  items: HTMLElement[];
+  total: number;
+  disabled: boolean;
+}
+````
+
+Данные карточки товара в корзине.
+- `id: string` - идентификатор товара.
+- `title: string` - название товара.
+- `price: number | null` - цена товара.
+- `index: number` - порядковый номер в корзине.
+
+````ts
+export interface CartCardView {
+  id: string;
+  title: string;
+  price: number | null;
+  index: number;
+}
+````
+
+Данные карточки товара в модальном окне предпросмотра.
+- `buttonText: string` - текст кнопки в карточке товара.
+- `buttonDisabled: boolean` - доступность кнопки для добавления или удаления из корзины.
+- `inCart: boolean` - находится ли товар в корзине.
+
+````ts
+export interface PreviewCardView extends CardView {
+  buttonText: string;
+  buttonDisabled: boolean;
+  inCart: boolean;
+}
+````
+
+Данные состояния формы.
+- `valid: boolean` - валидность формы.
+- `errors: string` - текст ошибки или ошибок формы.
+
+````ts
+export interface FormView {
+  valid: boolean;
+  errors: string;
+}
+````
+
+События изменения формы.
+- `form: string` - название формы.
+- `field: keyof BuyerData` - название поля.
+- `value: string` - значение поля.
+
+````ts
+export interface FormEvent {
+  form: string;
+  field: keyof BuyerData;
+  value: string;
+}
+````
+
+Данные первой формы.
+- `address: string` - адрес доставки.
+- `payment: BuyerData["payment"]` - способ оплаты.
+
+````ts
+export interface FormOrder extends FormView {
+  address: string;
+  payment: BuyerData["payment"];
+}
+````
+
+Данные второй формы.
+- `email: string` - электронная почта пользователя.
+- `phone: string` - номер телефона пользователя.
+
+````ts
+export interface FormContacts extends FormView {
+  email: string;
+  phone: string;
+}
+````
+
+Данные при успешном оформлении заказа.
+- `total: number` - итоговая сумма заказа.
+
+````ts
+export interface Success {
   total: number;
 }
 ````
@@ -345,6 +453,7 @@ interface OrderResponse {
 - `cardCategory: HTMLElement | null` - категория товара.
 - `cardImage: HTMLImageElement | null` - картинка товара.
 - `cardDescription: HTMLElement | null` - описание товара.
+- `currentId = ''` - текущий идентификатор товара.
 
 Наследование:
 - `PreviewCard` - карточка товара.
@@ -358,9 +467,6 @@ interface OrderResponse {
 - `category: string` - устанавливает категорию товара.
 - `image: string` - устанавливает изображение товара.
 - `description: string` - устанавливает описание товара.
-
-Геттеры:
-- `productId: string` - возвращает идентификатор товара.
 
 #### Класс `PreviewCard`
 
@@ -523,7 +629,7 @@ interface OrderResponse {
 
 #### События моделей данных
 
-- `products:change` - изменён каталог товарв.
+- `products:change` - изменён каталог товаров.
 - `preview:changed` - изменён товар для просмотра.
 - `buyer:changed` - изменены данные покупателя.
 - `cart:change` - изменено содержимое корзины.
@@ -531,7 +637,7 @@ interface OrderResponse {
 #### События представлений
 
 - `product:select` - выбранный товар пользователем.
-- `products:add` - добавление пользователем товараи в корзину.
+- `products:add` - добавление пользователем товара в корзину.
 - `products:remove` - удаление пользователем товара из корзины.
 - `cart:open` - открытая корзина пользователем.
 - `order:open` - пользователь начал оформлять заказ и перешёл на первую форму.
@@ -550,10 +656,10 @@ interface OrderResponse {
 - Оформление заказа и обработка результата.
 
 Сценарии обрабатываемые презентером:
-1. После загрузки страницы обрабатывается событие `products:changed` и рендерятся карточки товаров.
+1. После загрузки страницы обрабатывается событие `products:change` и рендерятся карточки товаров.
 2. При выборе карточки она сохраняется в `products` как `preview` открывается модальное окно этой карточки.
 3. После добавления товара в корзину счётчик товаров корзины обновляется по событию `cart:change` и содержимое появляется в модальном окне корзины. 
 4. После открытия корзины отображается список товаров и общая стоимость корзины с кнопкой оформления заказа, которая будет недоступна если корзина пуста.
 5. После нажатия на кнопку оформления заказа открывается первая форма ввода адреса и выбора способа оплаты, после заполнения кнопка продолжения становится активной.
 6. После первой формы открывается вторая с полями для телефона и электронной почты пользователя, после заполнения которых, становится активной кнопка оформления заказа.
-7. После успешного заполнения всех форм, оформляется заказ и выводится его сумма и сообщением об офрмлении заказа с кнопкой закрытия модального окна.
+7. После успешного заполнения всех форм, оформляется заказ и выводится его сумма и сообщением об оформлении заказа с кнопкой закрытия модального окна.

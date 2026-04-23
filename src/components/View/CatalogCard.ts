@@ -6,7 +6,7 @@ export class CatalogCard extends ProductCard<CardView> {
     constructor(container: HTMLElement, protected events: IEvents) {
         super(container);
         this.container.addEventListener("click", () => {
-            this.events.emit(catalogEvent.productSelect, { id: this.productId });
+            this.events.emit(catalogEvent.productSelect, { id: this.currentId });
         });
     }
 }

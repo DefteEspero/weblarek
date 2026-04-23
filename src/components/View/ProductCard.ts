@@ -19,7 +19,9 @@ export abstract class ProductCard<T extends Partial<CardView>> extends Component
         this.cardDescription = this.container.querySelector<HTMLElement>(".card__text");
     }
 
+    protected currentId = '';
     set id(value: string) {
+        this.currentId = value;
         this.container.dataset.id = value;
     }
 
@@ -61,9 +63,5 @@ export abstract class ProductCard<T extends Partial<CardView>> extends Component
         }
 
         this.setImage(this.cardImage, `${CDN_URL}${value}`, this.cardTitle?.textContent || 'Товар');
-    }
-
-    protected get productId(): string {
-        return this.container.dataset.id || "";
     }
 }

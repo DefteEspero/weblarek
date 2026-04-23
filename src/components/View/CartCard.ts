@@ -12,7 +12,7 @@ export class CartCard extends ProductCard<CartCardView> {
         this.cardIndex = ensureElement<HTMLElement>(".basket__item-index", this.container);
         this.deleteButton = ensureElement<HTMLButtonElement>(".basket__item-delete", this.container);
         this.deleteButton.addEventListener("click", () => {
-            this.eventEmitter.emit(events.productsRemove, { id: this.productId });
+            this.eventEmitter.emit(events.productsRemove, { id: this.currentId });
         });
     }
 

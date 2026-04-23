@@ -7,7 +7,7 @@ import { WebLarekApi } from './components/Models/WebLarekApi.ts';
 import { API_URL } from './utils/constants.ts';
 import { Api } from './components/base/Api.ts';
 import { EventEmitter, events } from './components/base/Events.ts';
-import { BuyerData, Event, BuyerError, BuyerPayment, OrderRequest, FormEvent} from'./types/index.ts'
+import { BuyerData, ProductEvent, BuyerError, BuyerPayment, OrderRequest, FormEvent} from'./types/index.ts'
 import { cloneTemplate, ensureElement } from './utils/utils.ts';
 import { Page } from './components/View/Page.ts';
 import { PreviewCard } from './components/View/PreviewCard.ts';
@@ -29,15 +29,9 @@ const cart = new Cart(eventEmitter);
 const buyer = new Buyer(eventEmitter);
 const getOrderErrors = (errors: BuyerError): string[] => [errors.payment, errors.address].filter(Boolean) as string[];
 const getContactsErrors = (errors: BuyerError): string[] => [errors.email, errors.phone].filter(Boolean) as string[];
-const currentOrder = new OrderForm(
-    cloneTemplate<HTMLFormElement>("#order"),
-    eventEmitter
-);
-const currentContacts = new ContactsForm(
-    cloneTemplate<HTMLFormElement>('#contacts'),
-    eventEmitter
-);
-let ModalWindow: "preview" | "basket" | "order" | "contacts" | "success" | null = null;
+const currentOrder = new OrderForm(cloneTemplate<HTMLFormElement>("#order"), eventEmitter);
+const currentContacts = new ContactsForm(cloneTemplate<HTMLFormElement>('#contacts'), eventEmitter);
+let modalWindow: "preview" | "basket" | "order" | "contacts" | "success" | null = null;
 
 larekApi.getProducts().then((response) => {
     products.setItems(response.items);
@@ -59,8 +53,8 @@ function catalogRender(): void {
     });
 }
 
-function openModalWindow(content: HTMLElement, state: typeof ModalWindow): void {
-    ModalWindow = state;
+function openModalWindow(content: HTMLElement, state: typeof modalWindow): void {
+    modalWindow = state;
     modal.render({ content });
     modal.open();
 }
@@ -136,32 +130,44 @@ function cartRender(): void {
     }), "basket");
 }
 
-eventEmitter.on<Event>(events.productsAdd, ({ id }) => {
+eventEmitter.on<ProductEvent>(events.productsAdd, ({ id }) => {
     const product = products.getItemById(id);
+    
     if (!product || product.price === null) {
         return;
     }
+
+    if (modalWindow === "preview") {
+        modal.close();
+        modalWindow = null;
+    }
+
     cart.addItem(product);
 });
 
-eventEmitter.on<Event>(events.productsRemove, ({ id }) => {
+eventEmitter.on<ProductEvent>(events.productsRemove, ({ id }) => {
     const product = cart.getItems().find((item) => item.id === id) ?? products.getItemById(id);
+    
     if (!product) {
         return;
     }
-    cart.removeItem(product);   
-    modal.close();
-    ModalWindow = null;
+
+    if (modalWindow === "preview") {
+        modal.close();
+        modalWindow = null;
+    }
+
+    cart.removeItem(product);
 });
 
 eventEmitter.on(events.cartChanged, () => {
     page.render({ counter: cart.getItemCount() });
 
-    if (ModalWindow === "basket") {
+    if (modalWindow === "basket") {
         cartRender();
     }
 
-    if (ModalWindow === "preview" && products.getPreview()) {
+    if (modalWindow === "preview" && products.getPreview()) {
         previewRender();
     }
 });
@@ -170,7 +176,7 @@ eventEmitter.on(events.cartOpen, () => {
     cartRender();
 });
 
-function formOrder(ModalWindow: boolean): void {
+function formOrder(modalWindow: boolean): void {
     const data = buyer.getData();
     const errors = buyer.validate();
     const orderErrors = getOrderErrors(errors);
@@ -178,10 +184,10 @@ function formOrder(ModalWindow: boolean): void {
         address: data.address,
         payment: data.payment,
         valid: orderErrors.length === 0,
-        errors: orderErrors.join("")
+        errors: orderErrors.join(" ")
     });
 
-    if (ModalWindow) {
+    if (modalWindow) {
         openModalWindow(formContent, "order");
     }
 }
@@ -196,16 +202,16 @@ eventEmitter.on<FormEvent>(events.formChange, ({ field, value }) => {
 });
 
 eventEmitter.on(events.buyerChanged, () => {
-    if (ModalWindow === "order") {
+    if (modalWindow === "order") {
         formOrder(false);
     }
 
-    if (ModalWindow === "contacts") {
+    if (modalWindow === "contacts") {
         formContacts(false);
     }
 });
 
-function formContacts(ModalWindow: boolean): void {
+function formContacts(modalWindow: boolean): void {
     const data = buyer.getData();
     const errors = buyer.validate();
     const orderErrors = getContactsErrors(errors);
@@ -213,10 +219,10 @@ function formContacts(ModalWindow: boolean): void {
         phone: data.phone,
         email: data.email,
         valid: orderErrors.length === 0,
-        errors: orderErrors.join("")
+        errors: orderErrors.join(" ")
     });
 
-    if (ModalWindow) {
+    if (modalWindow) {
         openModalWindow(formContent, "contacts");
     }
 }
@@ -265,11 +271,11 @@ eventEmitter.on(events.contactsSubmit, () => {
 
 eventEmitter.on(events.modalClose, () => {
     modal.close();
-    ModalWindow = null;
+    modalWindow = null;
 });
 
 eventEmitter.on(events.successClose, () => {
     modal.close();
-    ModalWindow = null;
+    modalWindow = null;
 });
 
