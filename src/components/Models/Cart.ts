@@ -19,8 +19,8 @@ export class Cart {
         this.events.emit(events.cartChanged);
     }
 
-    removeItem(item: IProduct): void {
-        this.items = this.items.filter((cartTest) => cartTest.id !== item.id);;
+    removeItem(id: string): void {
+        this.items = this.items.filter((cartTest) => cartTest.id !== id);;
         this.events.emit(events.cartChanged);
     }
 

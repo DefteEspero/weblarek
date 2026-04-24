@@ -40,8 +40,11 @@ export interface OrderResponse {
 export type BuyerPayment = `online` | `offline`;
 export type BuyerError = Partial<Record<keyof BuyerData, string>>;
 
-export interface PageView {
-  catalog: HTMLElement[];
+export interface GalleryView {
+  items: HTMLElement[];
+}
+
+export interface HeaderView {
   counter: number;
 }
 

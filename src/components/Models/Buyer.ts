@@ -1,7 +1,6 @@
 import { BuyerData, BuyerError } from "../../types/index.ts";
 import { IEvents, events } from "../base/Events.ts";
 
-
 export class Buyer {
     private payment: BuyerData['payment'] | '' = '';
     private address = '';
@@ -20,7 +19,6 @@ export class Buyer {
     }
 
     setData(data: Partial<BuyerData>): void {
-
         if (data.payment !== undefined) {
             this.payment = data.payment;
         }
@@ -63,7 +61,7 @@ export class Buyer {
         }
 
         if (!this.payment) {
-            errors.payment = "Способ оплаты не выбран, выберите способ оплаты."
+            errors.payment = "Способ оплаты не выбран, выберите способ оплаты.";
         }
 
         return errors;

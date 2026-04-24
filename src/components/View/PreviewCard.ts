@@ -1,25 +1,17 @@
-import { IEvents, events } from "../base/Events.ts";
 import { ensureElement } from "../../utils/utils.ts";
-import { ProductCard } from "./ProductCard.ts";
+import { ProductImageCard } from "./ProductCard.ts";
 import { PreviewCardView } from "../../types/index.ts";
 
-export class PreviewCard extends ProductCard<PreviewCardView> {
+export class PreviewCard extends ProductImageCard<PreviewCardView> {
     private readonly button: HTMLButtonElement;
-    private isInCart = false;
 
-    constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {
+    constructor(container: HTMLElement, onClick: () => void) {
         super(container);
         this.button = ensureElement<HTMLButtonElement>(".card__button", this.container);
 
         this.button.addEventListener("click", () => {
-            if (this.button.disabled) {
-                return;
-            }
-
-            if (this.isInCart) {
-                this.eventEmitter.emit(events.productsRemove, { id: this.currentId });
-            } else {
-                this.eventEmitter.emit(events.productsAdd, { id: this.currentId });
+            if (!this.button.disabled) {
+                onClick();
             }
         });
     }
@@ -30,9 +22,5 @@ export class PreviewCard extends ProductCard<PreviewCardView> {
 
     set buttonDisabled(value: boolean) {
         this.button.disabled = value;
-    }
-
-    set inCart(value: boolean) {
-        this.isInCart = value;
     }
 }

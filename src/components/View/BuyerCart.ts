@@ -22,7 +22,7 @@ export class BuyerCart extends Component<CartView> {
         this.list.replaceChildren(...value);
     }
 
-    set total(value: number | null) {
+    set total(value: number) {
         this.setText(this.totalCount, `${value} синапсов`);
     }
 

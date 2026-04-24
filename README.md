@@ -184,6 +184,24 @@ interface OrderResponse {
 }
 ````
 
+Карточки товаров.
+- `items: HTMLElement[]` - карточки на странице.
+
+````ts
+export interface GalleryView {
+  items: HTMLElement[];
+}
+````
+
+Модальное окно.
+- `content: HTMLElement` - содержимое модально модального окна.
+
+````ts
+export interface ModalView {
+  content: HTMLElement;
+}
+````
+
 Данные карточки товара.
 - `id: string` - уникальный номер товара.
 - `title: string` - название товара.
@@ -336,7 +354,7 @@ export interface Success {
 Методы:
 - `getItems(): IProduct[]` - возвращает товары из корзины.
 - `addItem(item: IProduct): void` - добавление товара в корзину.
-- `removeItem(item: IProduct): void` - удаляет товар из корзины.
+- `removeItem(id: string): void` - удаляет товар из корзины.
 - `clearCart(): void` - полная очистка корзины.
 - `getTotalPrice(): number` - возвращает сумму цен всех товаров в корзине.
 - `getItemCount(): number` - возвращает количество товаров в корзине.
@@ -390,26 +408,26 @@ export interface Success {
 
 ### Представление (View)
 
-#### Класс `Page`
+#### Класс `Gallary`
 
-Назначение: отображение контейнера с каталогом товаров на странице.
+Назначение: Представляет каталог товаров.
 
 Зона ответственности:
-- Вывод количества товаров в корзине.
-- Вывод карточек товаров в контейнере.
-- Открытия корзины по клику на иконку корзины.
+- Отображает список карточек каталога.
 
 Конструктор:
-- `constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}`
-
-Поля класса:
-- `gallery: HTMLElement` - контейнер каталога товаров.
-- `cartButton: HTMLButtonElement` - кнопка открытия корзины.
-- `cartCounter: HTMLElement` - счётчик количества товаров в корзине.
+- `constructor(container: HTMLElement) {}`
 
 Сеттеры:
-- `counter: number` - обновляет счётчик товаров в корзине.
-- `catalog: HTMLElement[]` - массив карточек товаров для каталога.
+- `items: HTMLElement` - заменяет содержимое галереи карточками товаров.
+
+#### Класс `Header`
+
+Назначение: Шамка сайта.
+
+Зона ответственности:
+- Отображение счётчика товаров в корзине.
+- Открытие корзины по клику на иконку.
 
 #### Класс `Modal`
 
@@ -437,23 +455,17 @@ export interface Success {
 
 #### Абстрактный класс `ProductCard`
 
-Назначение: базовый класс для трёх шаблонов карточек товаров.
+Назначение: базовый класс для карточек товаров.
 
 Зона ответственности:
-- Вывод общих полей карточек: цена, название, категория, описание, изображение.
-- Установка класса категории.
-- Сохранение идентификатора карточки.
+- Вывод общих полей карточек: цена, название.
 
 Конструктор:
 - `protected constructor(container: HTMLElement) {}`
 
 Поля класса:
 - `cardTitle: HTMLElement` - название товара.
-- `cardPrice: HTMLElement | null` - цена товара.
-- `cardCategory: HTMLElement | null` - категория товара.
-- `cardImage: HTMLImageElement | null` - картинка товара.
-- `cardDescription: HTMLElement | null` - описание товара.
-- `currentId = ''` - текущий идентификатор товара.
+- `cardPrice: HTMLElement` - цена товара.
 
 Наследование:
 - `PreviewCard` - карточка товара.
@@ -461,9 +473,24 @@ export interface Success {
 - `CartCard` - карточка товара в корзине.
 
 Сеттеры:
-- `id: string` - устанавливает идентификатор товара.
-- `price: number | null` - устанавливает цену товара.
 - `title: string` - устанавливает название товара.
+- `price: number` - устанавливает цену товара.
+
+#### Абстрактный класс `ProductImageCard`
+
+Назначение: базовый класс для карточек с изображением и категорией.
+
+Зона ответственности:
+- Отображение изображения и категории.
+
+Конструктор:
+- `protected constructor(container: HTMLElement) {}`
+
+Поля класса:
+- `cardCategory: HTMLElement` - категория товара.
+- `cardImage: HTMLImageElement` - картинка товара.
+
+Сеттеры:
 - `category: string` - устанавливает категорию товара.
 - `image: string` - устанавливает изображение товара.
 - `description: string` - устанавливает описание товара.
@@ -473,12 +500,12 @@ export interface Success {
 Назначение: карточка товара.
 
 Конструктор:
-- `constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}`
+- `constructor(container: HTMLElement, onClick: () => void) {}`
 
 Зона ответственности:
 - Отображение полной информации о товаре.
 - Отображение доступности кнопки для добавления товара в корзину.
-- Добавление или удаление товара из корзины.
+- Добавление в корзину или удаление товара из корзины при просмотре карточки.
 
 Поля класса:
 - `button: HTMLButtonElement` - кнопка удаления и добавления товара в корзину.
@@ -486,18 +513,17 @@ export interface Success {
 Сеттеры:
 - `buttonText: string` - текст кнопки покупки.
 - `buttonDisabled: boolean` - доступность кнопки для нажатия.
-- `inCart: boolean` - добавлен ли товар в корзину.
 
 #### Класс `CatalogCard`
 
 Назначение: карточка для товаров в каталоге.
 
 Зона ответственности:
-- Отображение информации о товаре.
+- Отображение информации о товаре(название и цена).
 - Выбор карточки для просмотра.
 
 Конструктор:
-- `constructor(container: HTMLElement, protected events: IEvents) {}`
+- `constructor(container: HTMLElement, onClick: () => void) {}`
 
 #### Класс `CartCard`
 
@@ -508,7 +534,7 @@ export interface Success {
 - Удаление товара из корзины.
 
 Конструктор:
-- `constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}`
+- `constructor(container: HTMLElement, onDelete: () => void) {}`
 
 Поля класса:
 - `cardIndex: HTMLElement` - номер товара в корзине.
@@ -537,7 +563,7 @@ export interface Success {
 
 Сеттеры:
 - `items: HTMLElement[]` - список карточек в корзине.
-- `total: number | null` - итоговая цена корзины.
+- `total: number` - итоговая цена корзины.
 - `disabled: boolean` - состояние кнопки оформления заказа.
 
 #### Абстрактный класс `Form`
@@ -637,8 +663,6 @@ export interface Success {
 #### События представлений
 
 - `product:select` - выбранный товар пользователем.
-- `products:add` - добавление пользователем товара в корзину.
-- `products:remove` - удаление пользователем товара из корзины.
 - `cart:open` - открытая корзина пользователем.
 - `order:open` - пользователь начал оформлять заказ и перешёл на первую форму.
 - `order:submit` - пользователь перешёл на вторую форму.
@@ -653,6 +677,7 @@ export interface Success {
 - Создание экземпляров моделей и представлений.
 - Запрос каталога с сервера.
 - Подключение модального окна.
+- Открытие модальных окнон с соответсвующей нформацие в них.
 - Оформление заказа и обработка результата.
 
 Сценарии обрабатываемые презентером:
