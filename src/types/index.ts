@@ -74,7 +74,6 @@ export interface CartCardView {
 export interface PreviewCardView extends CardView {
   buttonText: string;
   buttonDisabled: boolean;
-  inCart: boolean;
 }
 
 export interface FormView {

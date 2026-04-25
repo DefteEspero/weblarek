@@ -164,7 +164,7 @@ eventEmitter.on<ProductEvent>(events.productSelect, ({ id }) => {
     }
 
     products.setPreview(product);
-    openModalWindow(previewCard.render());
+    openModalWindow(renderPreview());
 });
 
 eventEmitter.on(events.cartChanged, () => {
@@ -193,10 +193,6 @@ eventEmitter.on(events.buyerChanged, () => {
 
 eventEmitter.on(events.orderSubmit, () => {
     openModalWindow(contactsForm.render());
-});
-
-eventEmitter.on(events.contactsSubmit, () => {
-    openModalWindow(success.render());
 });
 
 eventEmitter.on(events.contactsSubmit, () => {
