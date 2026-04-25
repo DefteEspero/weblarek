@@ -464,8 +464,7 @@ export interface Success {
 - `cardPrice: HTMLElement` - цена товара.
 
 Наследование:
-- `PreviewCard` - карточка товара.
-- `CatalogCard` - карточка для товаров в каталоге.
+- `ProductVisualCard` - промежуточный базовый класс для изображения и категории карточки.
 - `CartCard` - карточка товара в корзине.
 
 Сеттеры:
@@ -485,6 +484,10 @@ export interface Success {
 Поля класса:
 - `cardCategory: HTMLElement` - категория товара.
 - `cardImage: HTMLImageElement` - картинка товара.
+
+Наследование:
+- `PreviewCard` - карточка товара.
+- `CatalogCard` - карточка для товаров в каталоге.
 
 Сеттеры:
 - `category: string` - устанавливает категорию товара.

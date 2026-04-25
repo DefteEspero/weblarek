@@ -164,13 +164,17 @@ eventEmitter.on<ProductEvent>(events.productSelect, ({ id }) => {
     }
 
     products.setPreview(product);
+    renderPreview();
     openModalWindow(renderPreview());
+});
+
+eventEmitter.on(events.previewChanged, () => {
+    renderPreview();
 });
 
 eventEmitter.on(events.cartChanged, () => {
     renderHeader();
     renderCart();
-    renderPreview();
 });
 
 eventEmitter.on(events.cartOpen, () => {
