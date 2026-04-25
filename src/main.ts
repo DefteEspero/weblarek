@@ -35,7 +35,6 @@ const orderForm = new OrderForm(cloneTemplate<HTMLFormElement>("#order"), eventE
 const contactsForm = new ContactsForm(cloneTemplate<HTMLFormElement>("#contacts"), eventEmitter);
 const buyerCart = new BuyerCart(cloneTemplate<HTMLElement>("#basket"), eventEmitter);
 const success = new OrderSuccess(cloneTemplate<HTMLElement>("#success"), eventEmitter);
-
 const previewCard = new PreviewCard(cloneTemplate<HTMLElement>("#card-preview"), () => {
     eventEmitter.emit(events.previewButtonClick);
 });
@@ -152,7 +151,7 @@ eventEmitter.on<ProductEvent>(events.productSelect, ({ id }) => {
     }
 
     products.setPreview(product);
-    openModalWindow(previewCard.render());
+    openModalWindow(renderPreview());
 });
 
 eventEmitter.on(events.previewButtonClick, () => {
