@@ -152,7 +152,7 @@ eventEmitter.on<ProductEvent>(events.productSelect, ({ id }) => {
     }
 
     products.setPreview(product);
-    openModalWindow((previewCard.render()));
+    openModalWindow(previewCard.render());
 });
 
 eventEmitter.on(events.previewButtonClick, () => {
