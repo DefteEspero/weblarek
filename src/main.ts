@@ -64,9 +64,14 @@ function renderCatalog(): void {
     const cards = products.getItems().map((item) => {
         const card = new CatalogCard(cloneTemplate<HTMLButtonElement>("#card-catalog"), () => {
             eventEmitter.emit<ProductEvent>(events.productSelect, { id: item.id });
-    });
+        });
 
-        return card.render(item);
+        return card.render({
+            title: item.title,
+            image: item.image,
+            price: item.price,
+            category: item.category
+        });
     });
 
     gallery.render({ items: cards });
@@ -101,7 +106,6 @@ function renderCart(): HTMLElement {
         });
 
         return cartCard.render({
-            id: item.id,
             title: item.title,
             price: item.price,
             index: index + 1
@@ -123,7 +127,7 @@ function renderOrder(): HTMLElement {
         address: data.address,
         payment: data.payment,
         valid: errors.length === 0,
-        errors,
+        errors
     });
 }
 
@@ -150,10 +154,6 @@ function openModalWindow(content: HTMLElement): void {
 
 eventEmitter.on(events.productsChange, () => {
     renderCatalog();
-});
-
-eventEmitter.on(events.previewChanged, () => {
-    renderPreview();
 });
 
 eventEmitter.on<ProductEvent>(events.productSelect, ({ id }) => {
@@ -206,7 +206,7 @@ eventEmitter.on(events.contactsSubmit, () => {
         ...data,
         payment: data.payment,
         items: cart.getItems().map((item) => item.id),
-        total: cart.getTotalPrice(),
+        total: cart.getTotalPrice()
     };
 
     larekApi.createOrder(order).then((response) => {

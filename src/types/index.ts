@@ -65,7 +65,6 @@ export interface CartView {
 }
 
 export interface CartCardView {
-  id: string;
   title: string;
   price: number | null;
   index: number;

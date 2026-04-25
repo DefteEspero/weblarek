@@ -194,7 +194,7 @@ export interface GalleryView {
 ````
 
 Модальное окно.
-- `content: HTMLElement` - содержимое модально модального окна.
+- `content: HTMLElement` - содержимое модального окна.
 
 ````ts
 export interface ModalView {
@@ -228,14 +228,12 @@ export interface CartView {
 ````
 
 Данные карточки товара в корзине.
-- `id: string` - идентификатор товара.
 - `title: string` - название товара.
 - `price: number | null` - цена товара.
 - `index: number` - порядковый номер в корзине.
 
 ````ts
 export interface CartCardView {
-  id: string;
   title: string;
   price: number | null;
   index: number;
@@ -380,7 +378,7 @@ export interface Success {
 Методы:
 - `getData(): BuyerData` - возвращает данные пользователя. 
 - `setData(data: Partial<BuyerData>): void` - сохранение данных пользователя.
-- `clearData(): void` - очистка данные пользователя.
+- `clearData(): void` - очистка данных пользователя.
 - `validate(): BuyerError` - возвращает ошибку валидации полей.
 
 ### Слой коммуникации
@@ -417,11 +415,11 @@ export interface Success {
 - `constructor(container: HTMLElement) {}`
 
 Сеттеры:
-- `items: HTMLElement` - заменяет содержимое галереи карточками товаров.
+- `items: HTMLElement[]` - заменяет содержимое галереи карточками товаров.
 
 #### Класс `Header`
 
-Назначение: Шамка сайта.
+Назначение: Шапка сайта.
 
 Зона ответственности:
 - Отображение счётчика товаров в корзине.
@@ -584,7 +582,7 @@ export interface Success {
 Поля класса:
 - `form: HTMLFormElement` - элемент формы.
 - `submitButton: HTMLButtonElement` - кнопка отправки форм.
-- `error: HTMLElement` - элемент для ошибкок формы.
+- `error: HTMLElement` - элемент для ошибок формы.
 
 Сеттеры:
 - `errors: string` - текст ошибки или ошибок в форме.
@@ -682,7 +680,7 @@ export interface Success {
 1. После загрузки страницы презентер получает список товаров с сервера через `WebLarekApi` и сохраняет их в модель `Products`.
 2. При событии `products:change` обновляется галерея товаров.
 3. При выборе товара презентер получает товар по `id` из модели `Products` и передаёт его в модель как выбранный товар для предпросмотра.
-4. При событии `preview:change` обновляется представление `PreviewCard`.
+4. При событии `preview:changed` обновляется представление `PreviewCard`.
 5. При открытии предпросмотра презентер открывает модальное окно и передаёт в него актуальный контейнер `PreviewCard`.
 6. При добавлении или удалении товара из корзины изменяется модель `Cart`.
 7. При событии `cart:change` обновляются счётчик корзины в `Header`, кнопка в `PreviewCard` и содержимое корзины в `BuyerCart`.
