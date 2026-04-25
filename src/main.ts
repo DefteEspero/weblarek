@@ -37,19 +37,7 @@ const buyerCart = new BuyerCart(cloneTemplate<HTMLElement>("#basket"), eventEmit
 const success = new OrderSuccess(cloneTemplate<HTMLElement>("#success"), eventEmitter);
 
 const previewCard = new PreviewCard(cloneTemplate<HTMLElement>("#card-preview"), () => {
-    const preview = products.getPreview();
-
-    if (!preview || preview.price === null) {
-        return;
-    }
-
-    if (cart.inCart(preview.id)) {
-      cart.removeItem(preview.id);
-    } else {
-      cart.addItem(preview);
-    }
-
-    modal.close();
+    eventEmitter.emit(events.previewButtonClick);
 });
 
 larekApi.getProducts().then((response) => {
@@ -102,7 +90,7 @@ function renderPreview(): HTMLElement {
 function renderCart(): HTMLElement {
     const cartItems = cart.getItems().map((item, index) => {
         const cartCard = new CartCard(cloneTemplate<HTMLElement>("#card-basket"), () => {
-            cart.removeItem(item.id);
+            eventEmitter.emit<ProductEvent>(events.cartItemDelete, { id: item.id });
         });
 
         return cartCard.render({
@@ -164,8 +152,23 @@ eventEmitter.on<ProductEvent>(events.productSelect, ({ id }) => {
     }
 
     products.setPreview(product);
-    renderPreview();
-    openModalWindow(renderPreview());
+    openModalWindow((previewCard.render()));
+});
+
+eventEmitter.on(events.previewButtonClick, () => {
+    const preview = products.getPreview();
+
+    if (!preview || preview.price === null) {
+        return;
+    }
+
+    if (cart.inCart(preview.id)) {
+        cart.removeItem(preview.id);
+    } else {
+        cart.addItem(preview);
+    }
+
+    modal.close();
 });
 
 eventEmitter.on(events.previewChanged, () => {
@@ -175,10 +178,15 @@ eventEmitter.on(events.previewChanged, () => {
 eventEmitter.on(events.cartChanged, () => {
     renderHeader();
     renderCart();
+    renderPreview();
 });
 
 eventEmitter.on(events.cartOpen, () => {
     openModalWindow(buyerCart.render());
+});
+
+eventEmitter.on<ProductEvent>(events.cartItemDelete, ({ id }) => {
+    cart.removeItem(id);
 });
 
 eventEmitter.on(events.orderOpen, () => {

@@ -1,4 +1,5 @@
 // Хорошая практика даже простые типы выносить в алиасы
+
 // Зато когда захотите поменять это достаточно сделать в одном месте
 type EventName = string | RegExp;
 type Subscriber = Function;
@@ -101,5 +102,7 @@ export const events = {
     successClose: "success:close",
     modalClose: "modal:close",
     productSelect: "product:select",
-    previewChanged: "preview:changed"
+    previewChanged: "preview:changed",
+    previewButtonClick: "preview:button-click",
+    cartItemDelete: "cart:item-delete"
 }

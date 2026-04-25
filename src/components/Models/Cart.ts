@@ -20,7 +20,7 @@ export class Cart {
     }
 
     removeItem(id: string): void {
-        this.items = this.items.filter((cartTest) => cartTest.id !== id);;
+        this.items = this.items.filter((cartTest) => cartTest.id !== id);
         this.events.emit(events.cartChanged);
     }
 
