@@ -10,7 +10,7 @@ import { EventEmitter, events } from "./components/base/Events.ts";
 import { BuyerData, ProductEvent, BuyerError, BuyerPayment, OrderRequest, FormEvent } from "./types/index.ts";
 import { cloneTemplate, ensureElement } from "./utils/utils.ts";
 import { PreviewCard } from "./components/View/PreviewCard.ts";
-import { BuyerCart } from "./components/View/BuyerCart.ts";
+import { BayerCart } from "./components/View/CartView.ts";
 import { Modal } from "./components/View/Modal.ts";
 import { CatalogCard } from "./components/View/CatalogCard.ts";
 import { CartCard } from "./components/View/CartCard.ts";
@@ -33,7 +33,7 @@ const getOrderErrors = (errors: BuyerError): string => [errors.payment, errors.a
 const getContactsErrors = (errors: BuyerError): string => [errors.email, errors.phone].filter(Boolean).join(" ");
 const orderForm = new OrderForm(cloneTemplate<HTMLFormElement>("#order"), eventEmitter);
 const contactsForm = new ContactsForm(cloneTemplate<HTMLFormElement>("#contacts"), eventEmitter);
-const buyerCart = new BuyerCart(cloneTemplate<HTMLElement>("#cart"), eventEmitter);
+const buyerCart = new BayerCart(cloneTemplate<HTMLElement>("#cart"), eventEmitter);
 const success = new OrderSuccess(cloneTemplate<HTMLElement>("#success"), eventEmitter);
 const previewCard = new PreviewCard(cloneTemplate<HTMLElement>("#card-preview"), () => {
     eventEmitter.emit(events.previewButtonClick);

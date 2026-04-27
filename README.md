@@ -18,6 +18,14 @@ https://github.com/DefteEspero/weblarek
 - MVP
 - EventEmitter
 
+## Важные файлы:
+- index.html — HTML-файл главной страницы
+- src/types/index.ts — файл с типами
+- src/main.ts — точка входа приложения
+- src/scss/styles.scss — корневой файл стилей
+- src/utils/constants.ts — файл с константами
+- src/utils/utils.ts — файл с утилитами
+
 ## Возможности
 
 - Загрузка каталога товаров с сервера.
@@ -105,6 +113,8 @@ src/
     constants.ts
     utils.ts
 ```
+
+# Интернет-магазин «Web-Larёk»
 
 ## Кратко об архитектуре
 

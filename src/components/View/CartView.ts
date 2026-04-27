@@ -3,7 +3,7 @@ import { IEvents, events } from "../base/Events.ts";
 import { ensureElement } from "../../utils/utils.ts";
 import { CartView } from "../../types/index.ts";
 
-export class BuyerCart extends Component<CartView> {
+export class BayerCart extends Component<CartView> {
     private readonly list: HTMLElement;
     private readonly orderButton: HTMLButtonElement;
     private readonly totalCount: HTMLElement;
