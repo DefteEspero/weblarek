@@ -1,59 +1,146 @@
-# Проектная работа "Веб-ларек"
+# WebLarek
+
+Интернет-магазин товаров для веб-разработчиков на TypeScript. В приложении реализованы каталог товаров, просмотр карточки в модальном окне, корзина, пошаговое оформление заказа, валидация форм и отправка заказа на сервер.
+
+Проект построен по паттерну **MVP**: модели хранят данные, представления отвечают за интерфейс, а презентер связывает их через события.
+
+# Репозиторий
 
 https://github.com/DefteEspero/weblarek
 
-Стек: HTML, SCSS, TS, Vite
+## Стек
 
-Структура проекта:
-- src/ — исходные файлы проекта
-- src/components/ — папка с JS компонентами
-- src/components/base/ — папка с базовым кодом
+- TypeScript
+- Vite
+- SCSS
+- HTML
+- REST API
+- MVP
+- EventEmitter
 
-Важные файлы:
-- index.html — HTML-файл главной страницы
-- src/types/index.ts — файл с типами
-- src/main.ts — точка входа приложения
-- src/scss/styles.scss — корневой файл стилей
-- src/utils/constants.ts — файл с константами
-- src/utils/utils.ts — файл с утилитами
+## Возможности
 
-## Установка и запуск
-Для установки и запуска проекта необходимо выполнить команды
+- Загрузка каталога товаров с сервера.
+- Просмотр детальной информации о товаре в модальном окне.
+- Добавление товара в корзину и удаление товара из корзины.
+- Отображение количества товаров в корзине.
+- Подсчёт итоговой стоимости заказа.
+- Пошаговое оформление заказа: способ оплаты и адрес, затем email и телефон.
+- Валидация форм оформления заказа.
+- Отправка заказа на сервер.
+- Очистка корзины и данных покупателя после успешной оплаты.
+- Закрытие модальных окон по крестику и клику вне окна.
 
-```
+## Запуск проекта
+
+Установить зависимости:
+
+```bash
 npm install
+```
+
+Запустить проект в режиме разработки:
+
+```bash
 npm run dev
 ```
 
-или
+Собрать проект:
 
-```
-yarn
-yarn dev
-```
-## Сборка
-
-```
+```bash
 npm run build
 ```
 
-или
+Запустить предпросмотр сборки:
 
+```bash
+npm run preview
 ```
-yarn build
+
+## Переменные окружения
+
+Для работы с API используется переменная окружения:
+
+```env
+VITE_API_ORIGIN=https://larek-api.nomoreparties.co
 ```
-# Интернет-магазин «Web-Larёk»
+
+Пример можно хранить в файле `.env.example`. Локальный файл `.env` не стоит добавлять в репозиторий, если в нём есть приватные данные.
+
+## Структура проекта
+
+```txt
+src/
+  components/
+    base/
+      Api.ts
+      Component.ts
+      Events.ts
+    Models/
+      Buyer.ts
+      Cart.ts
+      Products.ts
+      WebLarekApi.ts
+    View/
+      BuyerCart.ts
+      CartCard.ts
+      CatalogCard.ts
+      ContactsForm.ts
+      Form.ts
+      Gallery.ts
+      Header.ts
+      Modal.ts
+      OrderForm.ts
+      OrderSuccess.ts
+      PreviewCard.ts
+      ProductCard.ts
+      ProductVisualCard.ts
+  pages/
+    index/
+      index.ts
+      scss/
+  types/
+    index.ts
+  utils/
+    constants.ts
+    utils.ts
+```
+
+## Кратко об архитектуре
+
+Проект разделён на три слоя:
+
+- **Model** — хранит данные приложения и сообщает об их изменении через события.
+- **View** — отображает интерфейс и сообщает о действиях пользователя.
+- **Presenter** — связывает модели и представления, обрабатывает события и управляет пользовательскими сценариями.
+
+Презентер реализован в основном скрипте приложения, потому что проект одностраничный. Он создаёт модели и представления, подписывается на события, обновляет интерфейс при изменениях моделей и открывает модальные окна с актуальными контейнерами представлений.
+
+## Что отработано в проекте
+
+- Разделение ответственности между Model, View и Presenter.
+- Работа с пользовательскими событиями через брокер событий.
+- Создание переиспользуемых View-компонентов.
+- Наследование и композиция в TypeScript.
+- Типизация API, моделей, событий и данных представлений.
+- Валидация форм.
+- Обновление интерфейса через события изменения моделей.
+- Работа с модальными окнами без хранения данных внутри представлений.
+
+## Подробная документация
+
+## Описание проекта
 «Web-Larёk» — это интернет-магазин с товарами для веб-разработчиков, где пользователи могут просматривать товары, добавлять их в корзину и оформлять заказы. Сайт предоставляет удобный интерфейс с модальными окнами для просмотра деталей товаров, управления корзиной и выбора способа оплаты, обеспечивая полный цикл покупки с отправкой заказов на сервер.
 
 ## Архитектура приложения
 
-Код приложения разделен на слои согласно парадигме MVP (Model-View-Presenter), которая обеспечивает четкое разделение ответственности между классами слоев Model и View. Каждый слой несет свой смысл и ответственность:
+Код приложения разделён на слои согласно парадигме MVP (Model-View-Presenter), которая обеспечивает четкое разделение ответственности между классами слоев Model и View. Каждый слой несет свой смысл и ответственность:
 
 Model - слой данных, отвечает за хранение и изменение данных.
 View - слой представления, отвечает за отображение данных на странице.
 Presenter - презентер содержит основную логику приложения и отвечает за связь представления и данных.
 
-Взаимодействие между классами обеспечивается использованием событийно-ориентированного подхода.Модели и Представления генерируют события при изменении данных или взаимодействии пользователя с приложением, а Презентер обрабатывает эти события используя методы как Моделей, так и Представлений.
+Взаимодействие между классами обеспечивается использованием событийно-ориентированного подхода. Модели и Представления генерируют события при изменении данных или взаимодействии пользователя с приложением, а Презентер обрабатывает эти события используя методы как Моделей, так и Представлений.
 
 ### Базовый код
 
@@ -318,7 +405,10 @@ export interface Success {
 - Хранение конкретного товара для просмотра пользователем.
 
 Конструктор:
-- `constructor(private events: IEvents) {}` - создаёт пустую модель каталога.
+````ts
+- constructor(private events: IEvents) {}
+````
+Создаёт пустую модель каталога.
 
 Поля класса:
 - `items: IProduct[]` - массив товаров каталога.
@@ -342,7 +432,10 @@ export interface Success {
 - Проверка наличия товаров в корзине.
 
 Конструктор:
-- `constructor(private events: IEvents) {}` - создаёт пустую корзину товаров.
+````ts
+constructor(private events: IEvents) {}
+````
+Создаёт пустую корзину товаров.
 
 Поля класса:
 - `items: IProduct[]` - массив товаров в корзине.
@@ -367,7 +460,10 @@ export interface Success {
 - Валидация заполненных полей.
 
 Конструктор:
-- `constructor(private events: IEvents) {}` - создаёт пустую модель покупателя.
+````ts
+constructor(private events: IEvents) {}
+Создаёт пустую модель покупателя.
+````
 
 Поля класса:
 - `payment: BuyerPayment | ''` - выбранный способ оплаты.
@@ -393,7 +489,10 @@ export interface Success {
 - Работа через базовый класс `Api`.
 
 Конструктор:
-- `constructor(api: IApi)` - принимает объект, реализующий методы get и post.
+````ts
+constructor(api: IApi)
+````
+Принимает объект, реализующий методы get и post.
 
 Поля класса:
 - `api: IApi` - объект для выполнения HTTP-запроса.
@@ -412,7 +511,9 @@ export interface Success {
 - Отображает список карточек каталога.
 
 Конструктор:
-- `constructor(container: HTMLElement) {}`
+````ts
+constructor(container: HTMLElement) {}
+````
 
 Сеттеры:
 - `items: HTMLElement[]` - заменяет содержимое галереи карточками товаров.
@@ -445,7 +546,9 @@ export interface Success {
 - Закрытие окна, при нажатии кнопки с клавиатуры, вне модального окна или по клику на крестик.
 
 Конструктор:
--  `constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}`
+````ts
+constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}
+````
 
 Поля класса:
 - `closeButton: HTMLButtonElement` - кнопка закрытия модального окна.
@@ -467,7 +570,9 @@ export interface Success {
 - Вывод общих полей карточек: цена, название.
 
 Конструктор:
-- `protected constructor(container: HTMLElement) {}`
+````ts
+protected constructor(container: HTMLElement) {}
+````
 
 Поля класса:
 - `cardTitle: HTMLElement` - название товара.
@@ -489,7 +594,9 @@ export interface Success {
 - Отображение изображения и категории.
 
 Конструктор:
-- `protected constructor(container: HTMLElement) {}`
+````ts
+protected constructor(container: HTMLElement) {}`
+````
 
 Поля класса:
 - `cardCategory: HTMLElement` - категория товара.
@@ -508,7 +615,9 @@ export interface Success {
 Назначение: карточка товара.
 
 Конструктор:
-- `constructor(container: HTMLElement, onClick: () => void) {}`
+````ts
+constructor(container: HTMLElement, onClick: () => void) {}
+````
 
 Зона ответственности:
 - Отображение полной информации о товаре.
@@ -529,11 +638,13 @@ export interface Success {
 Назначение: карточка для товаров в каталоге.
 
 Зона ответственности:
-- Отображение информации о товаре - название, цена, категория и картинка.
+- Отображение информации о товаре(название, цена, категория и картинка).
 - Выбор карточки для просмотра.
 
 Конструктор:
-- `constructor(container: HTMLElement, onClick: () => void) {}`
+````ts
+constructor(container: HTMLElement, onClick: () => void) {}
+````
 
 #### Класс `CartCard`
 
@@ -544,7 +655,9 @@ export interface Success {
 - Удаление товара из корзины.
 
 Конструктор:
-- `constructor(container: HTMLElement, onDelete: () => void) {}`
+````ts
+constructor(container: HTMLElement, onDelete: () => void) {}
+````
 
 Поля класса:
 - `cardIndex: HTMLElement` - номер товара в корзине.
@@ -564,7 +677,9 @@ export interface Success {
 - Переход к оформлению заказа.
 
 Конструктор:
-- `constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}`
+````ts
+constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}
+````
 
 Поля класса:
 - `list: HTMLElement` - список товаров в корзине.
@@ -591,7 +706,9 @@ export interface Success {
 - `ContactsForm` - вторая форма с вводом телефона и электронной почты.
 
 Конструктор:
-- `protected constructor(container: HTMLFormElement, protected readonly eventEmitter: IEvents) {}`
+````ts
+protected constructor(container: HTMLFormElement, protected readonly eventEmitter: IEvents) {}
+````
 
 Поля класса:
 - `form: HTMLFormElement` - элемент формы.
@@ -612,7 +729,9 @@ export interface Success {
 - Переход на вторую форму заказа.
 
 Конструктор:
-- `constructor(container: HTMLFormElement, eventEmitter: IEvents) {}`
+````ts
+constructor(container: HTMLFormElement, eventEmitter: IEvents) {}
+````
 
 Поля класса:
 - `addressField: HTMLInputElement` - поле для ввода адреса.
@@ -632,7 +751,9 @@ export interface Success {
 - Изменение данных форм.
 
 Конструктор:
-- `constructor(container: HTMLFormElement, eventEmitter: IEvents) {}`
+````ts
+constructor(container: HTMLFormElement, eventEmitter: IEvents) {}
+````
 
 Поля класса:
 - `phoneField: HTMLInputElement` - поле ввода номера телефона.
@@ -651,7 +772,9 @@ export interface Success {
 - Закрытие окна по кнопке.
 
 Конструктор:
-- `constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}`
+````ts
+constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}
+````
 
 Поля класса:
 - `successText: HTMLElement` - текст сообщения при оформлении заказа.
@@ -683,6 +806,8 @@ export interface Success {
 - `cart:item-delete` - пользователь удалил товар из корзины.
 
 ### Презентер
+
+Презентер находится в `main.ts`.
 
 Зона ответственности презентера:
 - Создание экземпляров моделей и представлений.

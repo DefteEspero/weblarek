@@ -33,7 +33,7 @@ const getOrderErrors = (errors: BuyerError): string => [errors.payment, errors.a
 const getContactsErrors = (errors: BuyerError): string => [errors.email, errors.phone].filter(Boolean).join(" ");
 const orderForm = new OrderForm(cloneTemplate<HTMLFormElement>("#order"), eventEmitter);
 const contactsForm = new ContactsForm(cloneTemplate<HTMLFormElement>("#contacts"), eventEmitter);
-const buyerCart = new BuyerCart(cloneTemplate<HTMLElement>("#basket"), eventEmitter);
+const buyerCart = new BuyerCart(cloneTemplate<HTMLElement>("#cart"), eventEmitter);
 const success = new OrderSuccess(cloneTemplate<HTMLElement>("#success"), eventEmitter);
 const previewCard = new PreviewCard(cloneTemplate<HTMLElement>("#card-preview"), () => {
     eventEmitter.emit(events.previewButtonClick);
@@ -41,7 +41,6 @@ const previewCard = new PreviewCard(cloneTemplate<HTMLElement>("#card-preview"),
 
 larekApi.getProducts().then((response) => {
     products.setItems(response.items);
-    console.log("Каталог товаров с сервера: ", products.getItems());
 })
 .catch((error: unknown) => {
     console.error("Ошибка получения каталога: ", error);
@@ -88,7 +87,7 @@ function renderPreview(): HTMLElement {
 
 function renderCart(): HTMLElement {
     const cartItems = cart.getItems().map((item, index) => {
-        const cartCard = new CartCard(cloneTemplate<HTMLElement>("#card-basket"), () => {
+        const cartCard = new CartCard(cloneTemplate<HTMLElement>("#card-cart"), () => {
             eventEmitter.emit<ProductEvent>(events.cartItemDelete, { id: item.id });
         });
 

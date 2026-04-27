@@ -10,9 +10,9 @@ export class BuyerCart extends Component<CartView> {
 
     constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {
         super(container);
-        this.list = ensureElement<HTMLElement>(".basket__list", this.container);
-        this.orderButton = ensureElement<HTMLButtonElement>(".basket__button", this.container);
-        this.totalCount = ensureElement<HTMLElement>(".basket__price", this.container);
+        this.list = ensureElement<HTMLElement>(".cart__list", this.container);
+        this.orderButton = ensureElement<HTMLButtonElement>(".cart__button", this.container);
+        this.totalCount = ensureElement<HTMLElement>(".cart__price", this.container);
         this.orderButton.addEventListener("click", () => {
             this.eventEmitter.emit(events.orderOpen);
         });

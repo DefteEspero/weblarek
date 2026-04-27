@@ -8,8 +8,8 @@ export class CartCard extends ProductCard<CartCardView> {
 
     constructor(container: HTMLElement, onDelete: () => void) {
         super(container);
-        this.cardIndex = ensureElement<HTMLElement>(".basket__item-index", this.container);
-        this.deleteButton = ensureElement<HTMLButtonElement>(".basket__item-delete", this.container);
+        this.cardIndex = ensureElement<HTMLElement>(".cart__item-index", this.container);
+        this.deleteButton = ensureElement<HTMLButtonElement>(".cart__item-delete", this.container);
         this.deleteButton.addEventListener("click", onDelete);
     }
 
