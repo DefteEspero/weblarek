@@ -90,7 +90,7 @@ src/
       Products.ts
       WebLarekApi.ts
     View/
-      BuyerCart.ts
+      CartView.ts
       CartCard.ts
       CatalogCard.ts
       ContactsForm.ts
@@ -676,7 +676,7 @@ constructor(container: HTMLElement, onDelete: () => void) {}
 Сеттеры:
 - `index: number` - порядковый номер товара в корзине.
 
-#### Класс `BuyerCart`
+#### Класс `CartView`
 
 Назначение: корзина товаров.
 
@@ -835,8 +835,8 @@ constructor(container: HTMLElement, private readonly eventEmitter: IEvents) {}
 5. При открытии предпросмотра презентер открывает модальное окно и передаёт в него актуальный контейнер `PreviewCard`.
 6. При событии `preview:button-click` презентер проверяет выбранный для просмотра товар в модели `Products`, если товар уже есть в корзине, удаляет его из модели `Cart`, иначе добавляет товар в модель `Cart`. После этого модальное окно закрывается.
 7. При событии `cart:item-delete` удаляется товар из модели `Cart` по его идентификатору.
-8. При событии `cart:change` обновляются счётчик корзины в `Header`, кнопка в `PreviewCard` и содержимое корзины в `BuyerCart`.
-9. При открытии корзины презентер открывает модальное окно и передаёт в него актуальный контейнер `BuyerCart`.
+8. При событии `cart:change` обновляются счётчик корзины в `Header`, кнопка в `PreviewCard` и содержимое корзины в `CartView`.
+9. При открытии корзины презентер открывает модальное окно и передаёт в него актуальный контейнер `CartView`.
 10. При событии `order:open` открывается первая форма оформления заказа `OrderForm`.
 11. При изменении полей форм презентер передаёт новые значения в модель `Buyer`.
 12. При событии `buyer:changed` обновляются формы `OrderForm` и `ContactsForm`.
